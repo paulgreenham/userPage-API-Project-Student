@@ -1,4 +1,19 @@
-// Fill in the functions for your Renderer Class
+const capitalizeEachWord = function(str) {
+    let newStr = ""
+    for(let i = 1; i < str.length; i++) {
+        if(str[i - 1]== " ") {
+            newStr += str[i].toUpperCase()
+        }
+        else {
+            newStr += str[i]
+        }
+    }
+    return newStr.charAt(0).toUpperCase() + newStr.slice(1)
+}
+
+Handlebars.registerHelper("properNoun", function(options) {    
+    return capitalizeEachWord(options.fn(this))
+})
 
 class Renderer {
     _renderUsers(users) {
