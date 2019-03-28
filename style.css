@@ -129,3 +129,8 @@ button {
     padding: 1vw;
     font-size: 1vmax;
 }
+
+input {
+    width: 300px;
+    height: 24px;
+}

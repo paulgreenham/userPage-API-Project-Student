@@ -64,12 +64,11 @@ class Renderer {
         this._renderMeat(data.meatText)
     }
 
-    renderSavedUsers(users) {
+    renderSavedUsers(savedUsers) {
         $("#menu-container").empty()
         const source = $("#menu-template").html()
         const template = Handlebars.compile(source)
-        const hbText = template(users)
-        console.log(hbText)
+        const hbText = template({savedUsers})
         $("#menu-container").append(hbText)
     }
 }

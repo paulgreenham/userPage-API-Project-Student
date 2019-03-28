@@ -81,16 +81,18 @@ class APIManager {
         });
     }
 
+    getSavedUsers = () => JSON.parse(localStorage.users || "[]")
+
     saveUserData() {
         let currentUser = {userID: this.currentID, userData: this.data}
         this.currentID++
-        let savedUsers = JSON.parse(localStorage.users || "[]")
+        let savedUsers = this.getSavedUsers()
         savedUsers.push(currentUser)
         localStorage.users = JSON.stringify(savedUsers)
         localStorage.currentID = JSON.stringify(this.currentID)
     }
 
     retrieveData(userID) {
-        this.data = JSON.parse(localStorage.users.find(u => u.userID == userID) || "{}")
+        this.data = this.getSavedUsers().find(u => u.userID == userID).userData
     }
 }

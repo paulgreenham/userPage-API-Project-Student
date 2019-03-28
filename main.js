@@ -3,28 +3,26 @@
 const apiManager = new APIManager
 const renderer = new Renderer
 
-
 // Create the loadData and renderData functions - these should use the relevant instance
+
+const renderCurrentData = () => renderer.render(apiManager.data)
+const renderStoredUsers = () => renderer.renderSavedUsers(apiManager.getSavedUsers())
 
 $("#load-button").on("click", function() {
     apiManager.loadData()
 })
 
-$("#display-button").on("click", function() {
-    renderer.render(apiManager.data)
-})
+$("#display-button").on("click", renderCurrentData)
 
 $("#save-button").on("click", function() {
     apiManager.saveUserData()
-    renderer.renderSavedUsers(savedUsers)
+    renderStoredUsers()
 })
 
 $("#retrieve-button").on("click", function() {
-    let savedUserID = $(`#saved-users option[value"${$("#input").val()}"]`).data("id")
-    console.log(savedUserID)
+    let savedUserID = $(`#saved-users option[value="${$("input").val()}"]`).data("id")
     apiManager.retrieveData(savedUserID)
-    renderer.render(apiManager.data)
+    renderCurrentData()
 })
 
-const savedUsers = JSON.parse(localStorage.users || "[]")
-renderer.renderSavedUsers(savedUsers)
+renderStoredUsers()

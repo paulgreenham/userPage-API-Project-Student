@@ -71,16 +71,16 @@
     </script>
     <!-- ------------------------------------------------------ -->
     <script id="menu-template" type="text/x-handlebars-template">
-        <input list="saved-users">
+        <input list="saved-users" placeholder="Type user name or select from the menu">
         <datalist id="saved-users">
-            {{#each users}}
+            {{#each savedUsers}}
             <option data-id="{{this.userID}}" value="{{#properNoun}}{{this.userData.userDetails.main.name.first}} {{this.userData.userDetails.main.name.last}}{{/properNoun}}">
             {{/each}}
         </datalist>
     </script>
     <!-- ------------------------------------------------------ -->
-    <script src="Renderer.js"></script>
     <script src="APIManager.js"></script>
+    <script src="Renderer.js"></script>
     <script src="main.js"></script>
 </body>
 
