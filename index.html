@@ -14,8 +14,8 @@
 <body>
     <div class="container">
         <div class="buttons">
-            <button onclick=loadData()>Load User Data</button>
-            <button onclick=renderData()>Display User</button>
+            <button id="load-button">Load User Data</button>
+            <button id="display-button">Display User</button>
         </div>
         <div class="user-container"></div>
         <div class="quote-container"></div>
@@ -29,41 +29,42 @@
             </div>
         </div>
     </div>
+        
     <!-- ------------------------------- -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
+    <!-- ----------------------------------------------------->
     <script id="user-template" type="text/x-handlebars-template">
-        <div id = "profile-pic" style = "background-image: url({{picture.medium}})"></div>
+        <img id="profile-pic" src="{{main.picture.thumbnail}}">
         <div class="user-info">
-            <div>{{toProperCase name.first}} {{toProperCase name.last}}</div>
-            <div>{{toProperCase location.city}}, {{toProperCase location.state}}</div>
+            {{main.name.first}} {{main.name.last}}
+            <br>
+            {{main.location.city}} {{main.location.state}}
         </div>
     </script>
     <!-- ----------------------------------------------------->
     <script id="user-friends-template" type="text/x-handlebars-template">
-        <ul class="user-friends">
-            {{#each friends}}
-            <li>{{toProperCase this.name.first}} {{toProperCase this.name.last}}</li> <br>
-            {{/each}}
-        </ul>
+        {{#each friends}}
+        <div>
+            {{this.first}} {{this.last}}
+        </div>
+        {{/each}}
     </script>
     <!-- ---------------------------------------------------- -->
+    <script id="quote-template" type="text/x-handlebars-template">
+        <p>Favorite quote:</p>
+        <span>"{{quote}}"</span>
+        <br>
+        <span>- {{author}}</span>
+    </script>
+    <!-- ------------------------------------------------------ -->
     <script id="pokemon-template" type="text/x-handlebars-template">
-            <span id = "pokemon-image" style = "background-image: url({{sprites.front_default}})"></span>
-            <span id= "pokemon-text">Favorite Pokemon: {{toProperCase name}}</span>
+        <img src="{{image}}" alt="Picture of a random Pokemon" id="pokemon-image">
+        <div id="pokemon-text">Favorite Pokemon: {{name}}</div>
     </script>
     <!-- ------------------------------------------------------ -->
     <script id="meat-template" type="text/x-handlebars-template">
-        <div class="meat-text">
-                <p>About me:</p>
-                {{text}}
-        </div>
-    </script>
-    <!-- ------------------------------------------------------ -->
-    <script id="quote-template" type="text/x-handlebars-template">
-        <p>Favorite quote:</p>
-        <span><i>"{{quote}}"</i> <br>
-            - {{author}}</span>
+        <div class="meat-text">{{this}}</div>
     </script>
     <!-- ------------------------------------------------------ -->
     <script src="Renderer.js"></script>
