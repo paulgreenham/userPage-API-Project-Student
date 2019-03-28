@@ -16,19 +16,19 @@ Handlebars.registerHelper("properNoun", function(options) {
 })
 
 class Renderer {
-    _renderUsers(users) {
+    _renderUsers(userInfo) {
         $(".user-container").empty()
         const source = $("#user-template").html()
         const template = Handlebars.compile(source)
-        const hbText = template(users)
+        const hbText = template(userInfo)
         $(".user-container").append(hbText)
     }
 
-    _renderFriends(users) {
+    _renderFriends(userInfo) {
         $(".friends-container").empty()
         const source = $("#user-friends-template").html()
         const template = Handlebars.compile(source)
-        const hbText = template(users)
+        const hbText = template(userInfo)
         $(".friends-container").append(hbText)
     }
 
@@ -57,11 +57,20 @@ class Renderer {
     }
 
     render(data){
-        this._renderUsers(data.users)
-        this._renderFriends(data.users)
+        this._renderUsers(data.userDetails)
+        this._renderFriends(data.userDetails)
         this._renderQuote(data.quoteInfo)
         this._renderPokemon(data.pokemonInfo)
         this._renderMeat(data.meatText)
+    }
+
+    renderSavedUsers(users) {
+        $("#menu-container").empty()
+        const source = $("#menu-template").html()
+        const template = Handlebars.compile(source)
+        const hbText = template(users)
+        console.log(hbText)
+        $("#menu-container").append(hbText)
     }
 }
 

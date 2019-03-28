@@ -15,15 +15,8 @@ const simplifyUser = function(user, desiredKeys) {
 
 class APIManager {
     constructor() {
-        this.data = {
-            users: {},
-            quoteInfo: {
-                quote: "A well-loved child has many names.",
-                author: "Anonymous"
-            },
-            pokemonInfo: {},
-            meatText: {}
-        }
+        this.data = {}
+        this.currentID = JSON.parse(localStorage.currentID || "1")
     }
 
     loadData(){
@@ -32,26 +25,31 @@ class APIManager {
             url: "https://randomuser.me/api/?results=7",
             dataType: "json",
             success: (response) => {
-                this.data.users.main = simplifyUser(response.results.shift(), ["name", "location", "picture"])
-                this.data.users.friends = response.results.map(r => r.name)
+                let userDetails = {}
+                userDetails.main = simplifyUser(response.results.shift(), ["name", "location", "picture"])
+                userDetails.friends = response.results.map(r => r.name)
+                this.data.userDetails = userDetails
             },
             error: function(xhr, text, error) {
                 console.log(text)
             }
         });
 
-        // $.ajax({
-        //     type: "GET",
-        //     url: "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1",
-        //     dataType: "json",
-        //     success: (response) => {
-        //         this.quoteInfo.quote = response.content
-        //         this.quoteInfo.author = response.title
-        //     }
-        //     error: function(xhr, text, error) {
-        //         console.log(text)
-        //     }
-        // });
+        $.ajax({
+            type: "GET",
+            url: "https://quotes.rest/qod",
+            dataType: "json",
+            success: (response) => {
+                this.data.quoteInfo = {quote: response.contents.quotes[0].quote, author: response.contents.quotes[0].author} 
+            },
+            error: (xhr, text, error) => {
+                console.log(text)
+                let quoteInfo = {}
+                quoteInfo.quote = "A well-loved child has many names."
+                quoteInfo.author = "Anonymous"
+                this.data.quoteInfo = quoteInfo
+            }
+        });
 
         let randomPoke = () => Math.ceil(Math.random() * 807)
 
@@ -60,8 +58,10 @@ class APIManager {
             url: `https://pokeapi.co/api/v2/pokemon/${randomPoke()}/`,
             dataType: "json",
             success: (response) => {
-                this.data.pokemonInfo.name = response.name
-                this.data.pokemonInfo.image = response.sprites.front_default
+                let pokemonInfo = {}
+                pokemonInfo.name = response.name
+                pokemonInfo.image = response.sprites.front_default
+                this.data.pokemonInfo = pokemonInfo
             },
             error: function(xhr, text, error) {
                 console.log(text)
@@ -79,5 +79,18 @@ class APIManager {
                 console.log(text)
             }
         });
+    }
+
+    saveUserData() {
+        let currentUser = {userID: this.currentID, userData: this.data}
+        this.currentID++
+        let savedUsers = JSON.parse(localStorage.users || "[]")
+        savedUsers.push(currentUser)
+        localStorage.users = JSON.stringify(savedUsers)
+        localStorage.currentID = JSON.stringify(this.currentID)
+    }
+
+    retrieveData(userID) {
+        this.data = JSON.parse(localStorage.users.find(u => u.userID == userID) || "{}")
     }
 }

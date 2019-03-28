@@ -16,6 +16,9 @@
         <div class="buttons">
             <button id="load-button">Load User Data</button>
             <button id="display-button">Display User</button>
+            <button id="save-button">Save User Page</button>
+            <button id="retrieve-button">Load User Page</button>
+            <div id="menu-container"></div>
         </div>
         <div class="user-container"></div>
         <div class="quote-container"></div>
@@ -29,7 +32,7 @@
             </div>
         </div>
     </div>
-        
+
     <!-- ------------------------------- -->
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js"></script>
@@ -39,7 +42,7 @@
         <div class="user-info">
             {{#properNoun}}{{main.name.first}} {{main.name.last}}{{/properNoun}}
             <br>
-            {{#properNoun}}{{main.location.city}} {{main.location.state}}{{/properNoun}}
+            {{#properNoun}}{{main.location.city}}, {{main.location.state}}{{/properNoun}}
         </div>
     </script>
     <!-- ----------------------------------------------------->
@@ -55,7 +58,7 @@
         <p>Favorite quote:</p>
         <span>"{{quote}}"</span>
         <br>
-        <span>- {{#properNoun}}{{author}}{{/properNoun}}</span>
+        <span>- {{author}}</span>
     </script>
     <!-- ------------------------------------------------------ -->
     <script id="pokemon-template" type="text/x-handlebars-template">
@@ -65,6 +68,15 @@
     <!-- ------------------------------------------------------ -->
     <script id="meat-template" type="text/x-handlebars-template">
         <div class="meat-text">{{this}}</div>
+    </script>
+    <!-- ------------------------------------------------------ -->
+    <script id="menu-template" type="text/x-handlebars-template">
+        <input list="saved-users">
+        <datalist id="saved-users">
+            {{#each users}}
+            <option data-id="{{this.userID}}" value="{{#properNoun}}{{this.userData.userDetails.main.name.first}} {{this.userData.userDetails.main.name.last}}{{/properNoun}}">
+            {{/each}}
+        </datalist>
     </script>
     <!-- ------------------------------------------------------ -->
     <script src="Renderer.js"></script>
